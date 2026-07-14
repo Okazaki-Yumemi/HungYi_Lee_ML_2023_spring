@@ -1,0 +1,19 @@
+
+# Downloaded upstream course resources
+resources/raw/
+
+# ML data and generated artifacts
+data/
+datasets/
+checkpoints/
+runs/
+outputs/
+
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+__pycache__/
+.ipynb_checkpoints/
