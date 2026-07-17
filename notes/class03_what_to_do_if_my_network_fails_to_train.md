@@ -18,7 +18,7 @@ Hessian H is a matrix of second-order partial derivatives of the loss function w
 
 拿出来 θ-θ0 , 令其为 v
 
-所以 H = vT * H(θ0) * v
+所以 q(v) = vT * H(θ0) * v
 
 if
 
@@ -117,11 +117,34 @@ e = sum((y - y`)^2)  i=1,2,...,n
 
 pytorch会自动加一层 softmax,所以如果你自己加了 softmax,就会 double softmax,导致 loss 很大
 
+对于
+```py
+criterion = nn.CrossEntropyLoss()
+```
+模型应该直接输出logits
+```py
+logits = model(x)
+loss = criterion(logits, labels)
+```
+不需要在模型最后手动加
+```py
+nn.Softmax(dim=1)
+```
+
+推理的时候需要概率才写
+```py
+probabilities = torch.softmax(logits, dim=1)
+```
+鉴别类别只需要
+```py
+predictions = logits.argmax(dim=1)
+```
+
 MSE在loss很大的时候常常梯度很小，没有办法更新参数，导致训练失败。所以一般用 Cross Entropy Loss 作为分类任务的 loss function。
 
 # Part5 Batch Normalization
 
-Feature normalization: normalization是一种数据预处理技术，用于将数据的特征值缩放到一个标准范围内，以便更好地进行模型训练。常见的归一化方法包括最小-最大归一化、Z-score标准化等。
+Feature normalization: normalization是一种数据预处理技术，用于将数据的特征值缩放到一个标准范围内，以便更好地进行模型训练。常见的归一化方法包括最小-最大归一化、Z-score标准化等.
 
 Testing 一般又叫 Inference
 
